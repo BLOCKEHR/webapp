@@ -1,20 +1,19 @@
 package com.inventor.app.controller;
 
-import com.inventor.app.model.Cita;
-import com.inventor.app.model.Doctor;
-import com.inventor.app.model.Historia;
-import com.inventor.app.model.Paciente;
+import com.inventor.app.model.*;
+import com.inventor.app.repository.CredencialesRepo;
+import com.inventor.app.repository.UsuarioRepo;
 import com.inventor.app.service.CitaService;
 import com.inventor.app.service.HistoriaService;
 import com.inventor.app.service.impl.DoctorServiceImpl;
 import com.inventor.app.service.impl.PacienteServiceImpl;
-import com.inventor.app.service.impl.UsuarioServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,9 +24,11 @@ import java.util.List;
 public class doctorController {
 
 
-    @Autowired
-    private UsuarioServiceImpl usuarioServiceImpl;
 
+    @Autowired
+    private UsuarioRepo usuarioRepo;
+    @Autowired
+    private CredencialesRepo credencialesRepo;
     @Autowired
     private PacienteServiceImpl pacienteServiceImpl;
 
@@ -70,7 +71,7 @@ public class doctorController {
               historia.setHistPaciente(paciente);
               historiaService.saveHistoria(historia);
 
-        request.setAttribute("mensaje", "Exito registrando usuario");
+        request.setAttribute("mensaje", "Exito registrando historia");
         return "forms/historia";
 
     }
@@ -129,5 +130,36 @@ public class doctorController {
 
 
 
+
+
+    @GetMapping(value = "/")
+    public String endPointPublico(HttpServletRequest request, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String msg = "Estás accediendo al end point sin realizar una autentificación ya que es un end point publico";
+        if (auth.isAuthenticated()) {
+
+            Usuario usuario = usuarioRepo.findByCredenciales( credencialesRepo.findByCreUsername(auth.getName()).get()).get();
+            msg = "Bienvenido " + usuario.getUserNombre() ;
+        }
+        model.addAttribute("message", msg);
+
+        return "consultas/reporte";
+    }
     
+
+    @RequestMapping("/buscarHistoria")
+    public String buscarHistoria(Model model,HttpServletRequest request){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Doctor doctor =  doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
+        List<Cita> citas = citaService.ObtenerCitasDocto(doctor);
+        model.addAttribute("citas", citas);
+
+        Integer idPaciente = Integer.parseInt(request.getParameter("pacienteHistoria"));
+        Paciente paciente = pacienteServiceImpl.getPacientebyId(Long.valueOf(idPaciente)).get();
+        Historia historianueva = historiaService.buscarHistoria(paciente).get();
+        model.addAttribute("historianueva", historianueva);
+        model.addAttribute("formpacienteper", true);
+        return "forms/historia";
+    }
 }

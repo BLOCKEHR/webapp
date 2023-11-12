@@ -24,6 +24,4 @@ public interface CitaService {
     public void cambiarEstadoCita(Cita cita);
 
 
-
-
 }

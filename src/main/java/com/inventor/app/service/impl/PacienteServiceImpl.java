@@ -3,7 +3,6 @@ package com.inventor.app.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import com.inventor.app.config.Credenciales;
 import com.inventor.app.model.Usuario;
 import com.inventor.app.repository.CredencialesRepo;
 import com.inventor.app.repository.UsuarioRepo;
@@ -44,7 +43,7 @@ public class PacienteServiceImpl implements PacienteService  {
 
     @Override
     public Paciente updatePaciente(Paciente pd, Long id) {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'updatePaciente'");
     }
 
@@ -61,7 +60,7 @@ public class PacienteServiceImpl implements PacienteService  {
 
     @Override
     public void deleteDetail(Long id) {
-        // TODO Auto-generated method stub
+        
         throw new UnsupportedOperationException("Unimplemented method 'deleteDetail'");
     }
 

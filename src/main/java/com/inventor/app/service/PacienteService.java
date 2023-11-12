@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.inventor.app.model.Paciente;
-import com.inventor.app.model.Usuario;
 
 public interface PacienteService {
 

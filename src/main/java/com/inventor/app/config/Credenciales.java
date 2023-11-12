@@ -14,9 +14,10 @@ public class Credenciales {
   
 
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idUserCre;
-
+    
+    @Column(unique = true)
     private String creUsername;
 
     private String crePassword;

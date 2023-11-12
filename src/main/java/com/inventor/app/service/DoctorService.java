@@ -10,7 +10,7 @@ public interface DoctorService {
     Doctor saveDoctor(Doctor pd);
 
     List<Doctor> getAllDoctors();
-
+    List<Doctor> buscarPorEspecialidad(String name);
     Optional<Doctor> getDoctorbyId(Long id);
 
 

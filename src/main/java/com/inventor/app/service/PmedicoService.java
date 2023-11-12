@@ -3,8 +3,6 @@ package com.inventor.app.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.inventor.app.config.Credenciales;
 import com.inventor.app.model.Usuario;
 

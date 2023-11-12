@@ -11,11 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -36,7 +34,7 @@ public class Usuario {
     @Column(name = "user_apellido")
     private String userApellido;
 
-    @Column(name = "user_correo")
+    @Column(name = "user_correo",unique = true)
     private String userCorreo;
 
     @Column(name = "user_edad")

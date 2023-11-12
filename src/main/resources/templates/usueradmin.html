@@ -18,7 +18,7 @@
         <h1>Formulario de Usuario</h1>
 
 
-        <form class="container-sm" th:if="${tipo == 'usuario'}" th:action="@{/personal/nuevo}" method="post" th:object="${usuario}">
+        <form class="container-sm" th:if="${tipo == 'usuario'}" th:action="@{/nuevo}" method="post" th:object="${usuario}">
             <div class="mb-3">
                 <label for="userNombree" class="form-label">Nombre:</label>
                 <input type="text" id="userNombree" name="userNombre" class="form-control" th:field="*{userNombre}">
@@ -50,8 +50,6 @@
             <div class="mb-3">
                 <label for="userTipo" class="form-label">Tipo:</label>
                 <select id="userTipo" class="form-select" name="userTipo" th:field="*{userTipo}">
-                    <option value="PACIENTE">Paciente</option>
-                    <option value="DOCTOR">Doctor</option>
                     <option value="PMEDICO">Personal</option>
                 </select>
             </div>
@@ -65,66 +63,16 @@
         </form>
 
 
-        <form class="container-sm" th:if="${tipo == 'paciente'}" th:action="@{/personal/savepaciente}" method="post" th:object="${paciente}">
-            <div class="mb-3">
-                <label for="Nacimiento" class="form-label">Nacimiento:</label>
-                <input type="date" id="Nacimiento" name="Nacimiento" class="form-control" th:field="*{pacFechaNacimiento}">
-            </div>
-
-            <div class="mb-3">
-                <label for="userApellido" class="form-label">Direccion:</label>
-                <input type="text" id="userApellido" name="Direccion" class="form-control" th:field="*{pacDireccion}">
-            </div>
-
-            <div class="mb-3">
-                <label for="telefono" class="form-label">Telefono:</label>
-                <input type="text" id="telefono" name="telefono" class="form-control" th:field="*{pacNumeroTelefono}" pattern="9\d{8}" title="Ingresa un número de 9 dígitos que comience con 9" required>
-            </div>
-
-            <input type="text" style="display: none;" name="iduser" th:value="${idUser}">
-
-            <button type="submit" class="btn btn-primary">Enviar</button>
-        </form>
+    
 
 
 
-        <form class="container-sm" th:if="${tipo == 'doctor'}" th:action="@{/personal/savedoctor}" method="post" th:object="${doctor}">
-            <div class="mb-3">
-                <label for="especialidad" class="form-label">Especialidad:</label>
-                <select id="especialidad" name="especialidad" class="form-select" th:field="*{docEspecialidad}">
-                    <option value="">Selecciona una especialidad</option>
-                    <option value="Cardiología">Cardiología</option>
-                    <option value="Dermatología">Dermatología</option>
-                    <option value="Ginecología">Ginecología</option>
-                    <option value="Neurología">Neurología</option>
-                    <option value="Oftalmología">Oftalmología</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="consultorio" class="form-label">Consultorio:</label>
-                <select id="consultorio" name="consultorio" class="form-select" th:field="*{docConsultorio}">
-                    <option value="">Selecciona un consultorio</option>
-                    <option value="B-105">B-105</option>
-                    <option value="C-201">C-201</option>
-                    <option value="D-110">D-110</option>
-                    <option value="E-301">E-301</option>
-                    <option value="F-205">F-205</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="telefono" class="form-label">Telefono:</label>
-                <input type="text" id="telefono" name="telefono" class="form-control" th:field="*{docnumeroTelefono}" pattern="9\d{8}" title="Ingresa un número de 9 dígitos que comience con 9" required>
-            </div>
-
-            <input type="text" style="display: none;" name="iduser" th:value="${idUser}">
-
-            <button type="submit" class="btn btn-primary">Enviar</button>
-        </form>
+       
 
 
         <p class="h5" th:text="${mensaje}"></p>
+        <p class="h5" th:text="${username}"></p>
+        <p class="h5" th:text="${pass}"></p>
     </div>
 
 
