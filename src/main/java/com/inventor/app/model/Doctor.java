@@ -1,5 +1,6 @@
 package com.inventor.app.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,4 +34,12 @@ public class Doctor {
     private String docnumeroTelefono;
 
     private String docConsultorio;
+
+
+    // MODIFICACION DE DOCTOR / DATO REQUERIDO SEGUN HISTORIA DE USUARIO
+
+    @Column(name = "CMP")
+    private int CMP;
+
+
 }

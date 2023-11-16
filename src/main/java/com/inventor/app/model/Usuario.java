@@ -2,6 +2,8 @@ package com.inventor.app.model;
 
 
 
+import java.sql.Date;
+
 import com.inventor.app.config.Credenciales;
 
 import jakarta.persistence.Column;
@@ -40,11 +42,27 @@ public class Usuario {
     @Column(name = "user_edad")
     private Integer userEdad;
 
-    @Column(name = "user_sexo")
+    @Column(name = "user_sexo")//genero xd
     private String userSexo;
 
     @Column(name = "user_tipo")
     private String userTipo;
+
+    // MODIFICACION DE USUARIO / MEJOR ABSTRACCION DE DATOS
+    @Column(name = "Dni",length = 8) 
+    private int Dni;
+
+    @Column(name = "CarneExtranjeria",length = 12) 
+    private String CarneExtranjeria;
+    
+    @Column(name = "FechaNacimiento") 
+    private Date FechaNacimiento;
+
+    @Column(name = "Telefono",length = 9)
+    private int Telefono;
+
+    @Column(name = "Direccion") 
+    private String Direccion;
 
     @OneToOne
     private Credenciales credenciales;

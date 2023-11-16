@@ -8,10 +8,10 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Entity
-@NoArgsConstructor
 @Getter
 @Setter
+@Entity
+@NoArgsConstructor
 @AllArgsConstructor
 public class Cita {
     @Id
@@ -45,6 +45,7 @@ public class Cita {
     public void setFechaCita(LocalDate fechaCita) {
         this.fechaCita = fechaCita;
     }
+    
 
 
 

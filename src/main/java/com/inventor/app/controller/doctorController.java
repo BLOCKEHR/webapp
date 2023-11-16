@@ -1,6 +1,7 @@
 package com.inventor.app.controller;
 
 import com.inventor.app.model.*;
+import com.inventor.app.repository.CitaRepo;
 import com.inventor.app.repository.CredencialesRepo;
 import com.inventor.app.repository.UsuarioRepo;
 import com.inventor.app.service.CitaService;
@@ -16,14 +17,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller()
 @RequestMapping("/doctor")
 public class doctorController {
-
-
 
     @Autowired
     private UsuarioRepo usuarioRepo;
@@ -31,6 +32,9 @@ public class doctorController {
     private CredencialesRepo credencialesRepo;
     @Autowired
     private PacienteServiceImpl pacienteServiceImpl;
+
+    @Autowired
+    private CitaRepo citaRepository;
 
     @Autowired
     private DoctorServiceImpl doctorServiceImpl;
@@ -41,16 +45,14 @@ public class doctorController {
     private HistoriaService historiaService;
 
     @RequestMapping("/historia")
-    public String VerHistoriaClinica(Model model){
+    public String VerHistoriaClinica(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Doctor doctor =  doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
-
+        Doctor doctor = doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
 
         List<Cita> citas = citaService.ObtenerCitasDocto(doctor);
 
         model.addAttribute("citas", citas);
-
 
         Historia historianueva = new Historia();
         model.addAttribute("historianueva", historianueva);
@@ -59,30 +61,46 @@ public class doctorController {
         return "forms/historia";
     }
 
-
     @RequestMapping("/actualizarhistoria")
-    public String EditarHistoriaClinica(@ModelAttribute("historianueva") Historia historia, HttpServletRequest request,Model model){
+    public String EditarHistoriaClinica(@ModelAttribute("historianueva") Historia historia, HttpServletRequest request,
+            Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Doctor doctor =  doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
+        Doctor doctor = doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
         Integer idPaciente = Integer.parseInt(request.getParameter("paciente"));
-              Paciente paciente = pacienteServiceImpl.getPacientebyId(Long.valueOf(idPaciente)).get();
+        Paciente paciente = pacienteServiceImpl.getPacientebyId(Long.valueOf(idPaciente)).get();
 
-              historia.setHistDoctor(doctor);
-              historia.setHistPaciente(paciente);
-              historiaService.saveHistoria(historia);
+        // historia.setHistDoctor(doctor);
+        // historia.setHistPaciente(paciente);
+        historiaService.saveHistoria(historia);
 
         request.setAttribute("mensaje", "Exito registrando historia");
+
         return "forms/historia";
 
     }
 
+    @GetMapping("/buscar")
+    public String buscarHistoriaClinica(@RequestParam(name = "buscar", required = false) Paciente buscar,
+            @ModelAttribute("historiabuscar") Historia historia, HttpServletRequest request, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Doctor doctor = doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
+        Integer idPaciente = Integer.parseInt(request.getParameter("paciente"));
+        Paciente paciente = pacienteServiceImpl.getPacientebyId(Long.valueOf(idPaciente)).get();
+
+        // historia.setHistDoctor(doctor);
+        // historia.setHistPaciente(paciente);
+        List<Cita> citas = citaRepository.findCitasByPaciente(buscar);
+        model.addAttribute("citas", citas);
+
+        return "forms/historia";
+
+    }
 
     @RequestMapping("/cita")
-    public String verCitasMedicas(Model model){
+    public String verCitasMedicas(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Doctor doctor =  doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
-
+        Doctor doctor = doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
 
         List<Cita> citas = citaService.ObtenerCitasDocto(doctor);
         List<Doctor> doctores = doctorServiceImpl.getAllDoctors();
@@ -90,27 +108,19 @@ public class doctorController {
         model.addAttribute("citas", citas);
         model.addAttribute("doctores", doctores);
 
-
         // extra codigo no util para testeeo
         List<Paciente> pacientes = pacienteServiceImpl.getAllPacientes();
 
         model.addAttribute("pacientes", pacientes);
 
-
-
-
         model.addAttribute("nuevaCita", new Cita());
-
-
 
         return "forms/cita";
 
     }
 
-
     @RequestMapping("/actualizarestado")
-    public String ActualizarEstado(Model model, HttpServletRequest request){
-
+    public String ActualizarEstado(Model model, HttpServletRequest request) {
 
         Integer idCita = Integer.parseInt(request.getParameter("citaId"));
         String estado = request.getParameter("citaEstado");
@@ -119,18 +129,13 @@ public class doctorController {
 
         citaService.cambiarEstadoCita(cita);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Doctor doctor =  doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
-
+        Doctor doctor = doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
 
         List<Cita> citas = citaService.ObtenerCitasDocto(doctor);
         model.addAttribute("citas", citas);
-        model.addAttribute("mensaje","Listo Historia");
+        model.addAttribute("mensaje", "Listo Historia");
         return "forms/cita";
     }
-
-
-
-
 
     @GetMapping(value = "/")
     public String endPointPublico(HttpServletRequest request, Model model) {
@@ -138,20 +143,20 @@ public class doctorController {
         String msg = "Estás accediendo al end point sin realizar una autentificación ya que es un end point publico";
         if (auth.isAuthenticated()) {
 
-            Usuario usuario = usuarioRepo.findByCredenciales( credencialesRepo.findByCreUsername(auth.getName()).get()).get();
-            msg = "Bienvenido " + usuario.getUserNombre() ;
+            Usuario usuario = usuarioRepo.findByCredenciales(credencialesRepo.findByCreUsername(auth.getName()).get())
+                    .get();
+            msg = "Bienvenido " + usuario.getUserNombre();
         }
         model.addAttribute("message", msg);
 
         return "consultas/reporte";
     }
-    
 
     @RequestMapping("/buscarHistoria")
-    public String buscarHistoria(Model model,HttpServletRequest request){
+    public String buscarHistoria(Model model, HttpServletRequest request) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Doctor doctor =  doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
+        Doctor doctor = doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
         List<Cita> citas = citaService.ObtenerCitasDocto(doctor);
         model.addAttribute("citas", citas);
 
@@ -160,6 +165,19 @@ public class doctorController {
         Historia historianueva = historiaService.buscarHistoria(paciente).get();
         model.addAttribute("historianueva", historianueva);
         model.addAttribute("formpacienteper", true);
+        return "forms/historia";
+    }
+
+    @RequestMapping("/buscarHistoriasPaciente")
+    public String buscarHistoriasPaciente(Model model, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Paciente paciente= pacienteServiceImpl.buscarPacienteByUsuario(auth.getName());
+        Doctor doctor = doctorServiceImpl.buscarPacienteByUsuario(auth.getName());
+        List<Cita> citas = citaService.ObtenerCitasPaciente(paciente);
+        model.addAttribute("citas", citas);
+        model.addAttribute("citasP", paciente);
+
         return "forms/historia";
     }
 }

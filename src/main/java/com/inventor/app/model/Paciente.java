@@ -21,9 +21,13 @@ public class Paciente {
    @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
     private Long    pacId;
-    private String  pacFechaNacimiento;
-    private String  pacDireccion;
-    private String  pacNumeroTelefono;
+
+    //  SE ELIMINO ESTOS DATOS DEBIDO A LA HERENCIA DE TABLA
+
+    //private String  pacFechaNacimiento;
+    //private String  pacDireccion;
+    //private String  pacNumeroTelefono;
+    
     @OneToOne
     private Usuario pacUsuario;
     @OneToOne

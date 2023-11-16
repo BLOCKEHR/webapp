@@ -1,150 +1,946 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </head>
-<body>
-<script type="application/javascript">
 
-    $(function() {
-        // Al hacer clic en el botón "Crear cita", muestra el formulario
-        $("#crear-cita").click(function() {
-            $("#formulario-cita").show();
-            $("#tabla-citas").hide();
-            $("#form-cita-paciente").hide();
-        });
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#Edad').on('input', function () {
 
-        // Al hacer clic en el botón "Ver citas", muestra la tabla
-        $("#ver-citas").click(function() {
-            $("#formulario-cita").hide();
-            $("#tabla-citas").show();   
-            $("#form-cita-paciente").hide();
-            $("input").val("");
-        
+            $('.adolescencia-section').hide();
+            $('.joven-section').hide();
+            $('.adulto-section').hide();
+            $('.adultoMayor-section').hide();
+            var edad = parseInt($(this).val());
+
+            if (edad > 0 && edad <= 13) {
+                $('.adolescencia-section').hide();
+                $('.joven-section').hide();
+                $('.adulto-section').hide();
+                $('.adultoMayor-section').hide();
+            } else {
+                if (edad > 13 && edad <= 20) {
+                    $('.adolescencia-section').show();
+                    $('.joven-section').hide();
+                    $('.adulto-section').hide();
+                    $('.adultoMayor-section').hide();
+                } else {
+                    if (edad > 20 && edad <= 30) {
+                        $('.adolescencia-section').hide();
+                        $('.joven-section').show();
+                        $('.adulto-section').hide();
+                        $('.adultoMayor-section').hide();
+                    } else {
+                        if (edad > 30 && edad <= 64) {
+                            $('.adolescencia-section').hide();
+                            $('.joven-section').hide();
+                            $('.adulto-section').show();
+                            $('.adultoMayor-section').hide();
+                        } else {
+                            if (edad > 64) {
+                                $('.adolescencia-section').hide();
+                                $('.joven-section').hide();
+                                $('.adulto-section').hide();
+                                $('.adultoMayor-section').show();
+                            } else {
+                                $('.adolescencia-section').hide();
+                                $('.joven-section').hide();
+                                $('.adulto-section').hide();
+                                $('.adultoMayor-section').hide();
+                            }
+                        }
+                    }
+                }
+            }
         });
     });
 </script>
 
+<style>
+    footer {
+        bottom: 0;
+        height: min-content;
+        width: 100%;
+        background-color: #f8f9fa;
+        /* Cambia esto al color de fondo deseado */
+        padding: 20px;
+        color: #6c757d;
+        /* Cambia esto al color de texto deseado */
 
-<header  th:replace="~{plantilla/menu :: menu}" ></header>
+    }
 
-<div id="cuerpo"style="height: 950px; "class="container-md">
-    <h1 class="display-1" >Historias Clinicas</h1>
-    <button th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}"class="btn btn-dark position-relative top-0 start-50 translate-middle btn-primary " id="ver-citas">Ver historias</button>
+    #cuerpo {
+        max-height: 70vh;
+        /* Ajusta la altura máxima según tus necesidades */
+        overflow-y: auto;
+        /* Agrega un scroll vertical si es necesario */
+    }
+</style>
 
-    <button th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" class="btn btn-dark position-relative top-0 start-50 translate-middle btn-primary " id="crear-cita">Crear historias</button>
+<body>
+    <script type="application/javascript">
 
-    <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" id="tabla-citas" style="display: none;">
-        <form th:action="@{/doctor/buscarHistoria}" method="post">
+        $(function () {
+            // Al hacer clic en el botón "Crear cita", muestra el formulario
+            $("#crear-cita").click(function () {
+                $("#formulario-cita").show();
+                $("#tabla-citas").hide();
+                $("#boton-citas-ver").hide();
+                $("#tabla-citas-ver").hide();
+                $("#form-cita-paciente").hide();
+            });
+
+            // Al hacer clic en el botón "Modificar citas", muestra la tabla
+            $("#modificar-citas").click(function () {
+                $("#formulario-cita").hide();
+                $("#tabla-citas").show();
+                $("#tabla-citas-ver").hide();
+
+                $("#boton-citas-ver").hide();
+                $("#form-cita-paciente").hide();
+                $("input").val("");
+
+            });
+
+            // Al hacer clic en el botón "Ver citas", muestra la tabla
+            $("#ver-citas").click(function () {
+
+                $("#formulario-cita").hide();
+                $("#tabla-citas").hide();
+                $("#form-cita-paciente").hide();
+                $("#boton-citas-ver").show();
+                $("#tabla-citas-ver").show();
+                $("input").val("");
+
+            });
+
+        });
+    </script>
+
+
+    <header th:replace="~{plantilla/menu :: menu}"></header>
+
+    <div id="cuerpo" style="height: 950px;" class="container-md">
+        <h1 class="display-1">Historias Clinicas</h1>
+        <br>
+        <div class="row mt-2">
+            <div class="col-md-2 col-lg-1 col-xl-3 mx-auto mb-2">
+                <button th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}"
+                    class="btn btn-dark position-relative top-0 start-50 translate-middle btn-primary "
+                    id="crear-cita">Crear
+                    historias</button>
+            </div>
+
+            <div class="col-md-2 col-lg-1 col-xl-3 mx-auto mb-2">
+                <button th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}"
+                    class="btn btn-dark position-relative top-0 start-50 translate-middle btn-primary "
+                    id="modificar-citas">Modificar
+                    historias</button>
+            </div>
+
+            <div class="col-md-2 col-lg-1 col-xl-3 mx-auto mb-2">
+                <button th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}"
+                    class="btn btn-dark position-relative top-0 start-50 translate-middle btn-primary "
+                    id="ver-citas">Ver
+                    historias</button>
+            </div>
+
+        </div>
+
+
+
+
+        <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" id="tabla-citas" style="display: none;">
+            <form th:action="@{/doctor/buscarHistoria}" method="post">
+                <div class="mb-3">
+                    <select id="pacienteHistoria" name="pacienteHistoria" class="form-select">
+                        <option th:each="cita : ${citas}" th:value="${cita.paciente.pacId}"
+                            th:text="${cita.paciente.pacUsuario.userNombre}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </div>
+
+
+
+
+
+        <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" id="formulario-cita"
+            style="display: none;">
+
+            <form th:action="@{/doctor/actualizarhistoria}" th:object="${historianueva}" method="post">
+                <di class="mb-3">
+                    <h3>Cabezera Historia Clinica</h3>
+                    <label for="PertenenciaEtnica">Fecha de Atencion:</label>
+                    <input type="datetime-local" id="FechaAtencion" name="FechaAtencion" class="form-control"
+                        placeholder="Fecha y hora de atención" th:field="*{FechaAtencion}" />
+                </di>
+                <br>
+                <div class="mb-3">
+                    <label for="PertenenciaEtnica">DNI de la Madre:</label>
+                    <input type="text" id="DniMadre" name="DniMadre" class="form-control"
+                        placeholder="DNI de la Madre del paciente" th:field="*{DniMadre}" />
+                </div>
+                <div class="mb-3">
+                    <label for="PertenenciaEtnica">DNI del Padre:</label>
+                    <input type="text" id="DniPadre" name="DniPadre" class="form-control"
+                        placeholder="DNI de la Padre del paciente" th:field="*{DniPadre}" />
+                </div>
+                <div class="mb-3">
+                    <label for="PertenenciaEtnica">Lugar de Nacimiento del Paciente:</label>
+                    <input type="text" id="LugarNacimiento" name="LugarNacimiento" class="form-control"
+                        placeholder="Lugar de nacimiento" th:field="*{LugarNacimiento}" />
+                </div>
+                <div class="mb-3">
+                    <label for="PertenenciaEtnica">Pertenencia Etnica:</label>
+                    <select id="PertenenciaEtnica" name="PertenenciaEtnica" class="form-control"
+                        th:field="*{PertenenciaEtnica}">
+                        <option value="Quechuas">Quechuas</option>
+                        <option value="Aimaras">Aimaras</option>
+                        <option value="Urus">Urus</option>
+                        <option value="Kakuay">Kakuay</option>
+                        <option value="Ashaninkas">Ashaninkas</option>
+                        <option value="Shipibo">Shipibo</option>
+                        <option value="Yanesha">Yanesha</option>
+                        <option value="Awajún">Awajún</option>
+                        <option value="Wampis">Wampis</option>
+                        <option value="Aguarunas">Aguarunas</option>
+                        <option value="Shawi">Shawi</option>
+                        <option value="Candoshi">Candoshi</option>
+                        <option value="Huitoto">Huitoto</option>
+                        <option value="Bora">Bora</option>
+                        <option value="Ocaina">Ocaina</option>
+                        <option value="Yagua">Yagua</option>
+                        <option value="Secoya">Secoya</option>
+                        <option value="Cofán">Cofán</option>
+                        <option value="Siona">Siona</option>
+                        <option value="Mestizos">Mestizos</option>
+                        <option value="No Aplica">No Aplica</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="GrupoSanguineo">Grupo Sanguineo:</label>
+                    <select id="GrupoSanguineo" name="GrupoSanguineo" class="form-control" th:field="*{GrupoSanguineo}">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="O">O</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>FactorRh:</label>
+                    <input type="checkbox" id="factorRh" name="factorRh" class="form-check-input"
+                        placeholder="Factor Rh" th:field="*{factorRh}" />
+                </div>
+                <div class="mb-3">
+                    <label for="GradoInstruccion">Grado de Instruccion:</label>
+                    <select id="GradoInstruccion" name="GradoInstruccion" class="form-control"
+                        th:field="*{GradoInstruccion}">
+                        <option value="Inicial">Inicial</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Secundaria">Secundaria</option>
+                        <option value="Superior No Universitaria">Superior No Universitaria</option>
+                        <option value="Superior Universitaria">Superior Universitaria</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="Genero">Género:</label>
+                    <select id="Genero" name="Genero" class="form-control" th:field="*{Genero}">
+                        <option value="Hombre">Hombre</option>
+                        <option value="Mujer">Mujer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="Genero">Edad del Paciente:</label>
+                    <input type="text" id="Edad" name="Edad" class="form-control" placeholder="Edad del paciente"
+                        th:field="*{Edad}" />
+                </div>
+
+
+                <h2>Antecedentes Personales</h2>
+                <div class="mb-3">
+                    <label>Antecedentes Patologicos</label>
+                    <textarea id="Patologicos" name="Patologicos" class="form-control"
+                        placeholder="Detalle de Antecedentes Patologicos" rows="5" cols="50"
+                        th:field="*{Patologicos}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Antecedentes del Quirurgicos:</label>
+                    <textarea id="Quirurgicos" name="Quirurgicos" class="form-control"
+                        placeholder="Detalle de Antecedentes Quirurgicos" rows="5" cols="50"
+                        th:field="*{Quirurgicos}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Antecedentes Laborales:</label>
+                    <textarea id="Laborales" name="Laborales" class="form-control"
+                        placeholder="Detalle de Antecedentes Laborales" rows="5" cols="50"
+                        th:field="*{Laborales}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Antecedentes de Terapias Alternativas:</label>
+                    <textarea id="TerapiasAlternativas" name="TerapiasAlternativas" class="form-control"
+                        placeholder="Detalle de Terapias Alternativas" rows="5" cols="50"
+                        th:field="*{TerapiasAlternativas}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="EstiloVida">Estilo de Vida:</label>
+                    <select id="EstiloVida" name="EstiloVida" class="form-control" th:field="*{EstiloVida}">
+                        <option value="Saludable">Saludable</option>
+                        <option value="Sedentario">Sedentario</option>
+                        <option value="Estresante">Estresante</option>
+                        <option value="Consumista">Consumista</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Antecedentes Familiares:</label>
+                    <textarea id="Familiar" name="Familiar" class="form-control"
+                        placeholder="Detalle de Antecedentes Familiares" rows="5" cols="50"
+                        th:field="*{Familiar}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Antecedentes Infantiles:</label>
+                    <textarea id="Infantil" name="Infantil" class="form-control"
+                        placeholder="Detalle de Antecedentes Infantiles" rows="5" cols="50"
+                        th:field="*{Infantil}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>¿Posee el Esquema Vacunacion Completa?</label>
+                    <input type="checkbox" id="EsquemaVacunacion" name="EsquemaVacunacion" class="form-check-input"
+                        placeholder="check = Si" th:field="*{EsquemaVacunacion}" />
+                </div>
+
+
+                <h2>Anamnesis del Paciente</h2>
+                <div class="mb-3">
+                    <label>Motivo de Consulta</label>
+                    <textarea id="MotivoConsulta" name="MotivoConsulta" class="form-control"
+                        placeholder="Motivo de Consulta Medica del Paciente" rows="5" cols="50"
+                        th:field="*{MotivoConsulta}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Forma de Inicio del Problema</label>
+                    <textarea id="FormaInicio" name="FormaInicio" class="form-control"
+                        placeholder=" Detalle la Forma de Inicio del Problema" rows="5" cols="50"
+                        th:field="*{FormaInicio}"></textarea>
+                </div>
+
+                <h2>Triaje del Paciente: </h2>
+                <div class="row mt-2">
+                    <div class="col-md-2 col-lg-1 col-xl-6 mx-auto mb-2">
+                        <div class="mb-3">
+                            <label>Presion Arterial Sistolica (mmHg):</label>
+                            <input type="number" id="PresionArteriaS" name="PresionArteriaS" class="form-control"
+                                placeholder="Presion Arterial Sistolica del Paciente" th:field="*{PresionArteriaS}" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Presion Arterial Diastólica (mmHg):</label>
+                            <input type="number" id="PresionArteriaD" name="PresionArteriaD" class="form-control"
+                                placeholder="Presion Arterial Diastólica del Paciente" th:field="*{PresionArteriaD}" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Respiraciones por minuto (RPM):</label>
+                            <input type="number" id="Respiracion" name="Respiracion" class="form-control"
+                                placeholder="Respiraciones por Minuto del Paciente" th:field="*{Respiracion}" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Latidos por minuto (lpm):</label>
+                            <input type="number" id="Pulso" name="Pulso" class="form-control"
+                                placeholder="Pulso del Paciente" th:field="*{Pulso}" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-lg-1 col-xl-6 mx-auto mb-2">
+                        <div class="mb-3">
+                            <label>Temperatura (ºC):</label>
+                            <input type="number" id="Temperatura" name="Temperatura" class="form-control"
+                                placeholder="Temperatura del Paciente" th:field="*{Temperatura}" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Peso (Kg):</label>
+                            <input type="number" id="Peso" name="Peso" class="form-control"
+                                placeholder="Peso del Paciente" th:field="*{Peso}" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Talla (Cm):</label>
+                            <input type="number" id="Talla" name="Talla" class="form-control"
+                                placeholder="Talla del Paciente" th:field="*{Talla}" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Tiempo de Enfermedad:</label>
+                            <div class="input-group">
+                                <input type="text" id="TiempoEnfermedad" name="TiempoEnfermedad" class="form-control"
+                                    placeholder="Duración" th:field="*{TiempoEnfermedad}" />
+                                <select class="form-select" id="unidadTiempo" name="unidadTiempo">
+                                    <option value="Días">Días</option>
+                                    <option value="Horas">Horas</option>
+                                    <option value="Semanas">Semanas</option>
+                                    <option value="Meses">Meses</option>
+                                    <option value="Años">Años</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="container-sm adolescencia-section">
+                    <h2>Formato Historia Clinica del Adolescente:</h2>
+                    <div class="mb-3">
+                        <label>Salud Sexual:</label>
+                        <input type="text" id="SaludSexual" name="SaludSexual" class="form-control"
+                            placeholder="SaludSexual" th:field="*{SaludSexual}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Salud Bucal:</label>
+                        <input type="text" id="SaludSexual" name="SaludSexual" class="form-control"
+                            placeholder="SaludSexual" th:field="*{SaludSexual}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Riesgo Cardiovascular:</label>
+                        <select id="RiesgoCardiovascular" name="RiesgoCardiovascular" class="form-control"
+                            th:field="*{RiesgoCardiovascular}">
+                            <option value="Alto">Alto</option>
+                            <option value="Medio">Medio</option>
+                            <option value="Bajo">Bajo</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="container-sm joven-section">
+                    <h2>Formato Historia Clinica del Joven:</h2>
+                    <div class="mb-3">
+                        <label>Medicamentos Frecuentes:</label>
+                        <textarea id="CuidadosPreventivos" name="CuidadosPreventivos" class="form-control"
+                            placeholder="Detalle Cuidados Preventivos" rows="5" cols="50"
+                            th:field="*{CuidadosPreventivos}"></textarea>
+                    </div>
+
+                </div>
+
+
+                <div class="container-sm adulto-section">
+                    <h2>Formato Historia Clinica del Adulto:</h2>
+                    <div class="mb-3">
+                        <label>Medicamentos Frecuentes:</label>
+                        <textarea id="CuidadosPreventivos" name="CuidadosPreventivos" class="form-control"
+                            placeholder="Detalle Cuidados Preventivos" rows="5" cols="50"
+                            th:field="*{CuidadosPreventivos}">
+                        </textarea>
+                    </div>
+
+                </div>
+
+
+                <div class="container-sm adultoMayor-section">
+                    <h2>Formato Historia Clinica del Adulto Mayor:</h2>
+                    <div class="mb-3">
+                        <label>Medicamentos Frecuentes:</label>
+                        <textarea id="MedicamentosFrecuentes" name="MedicamentosFrecuentes" class="form-control"
+                            placeholder="Detalle MedicamentosFrecuentes" rows="5" cols="50"
+                            th:field="*{MedicamentosFrecuentes}"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label>Valoracion Funcional:</label>
+                        <select id="RiesgoCardiovascular" name="RiesgoCardiovascular" class="form-control"
+                            th:field="*{RiesgoCardiovascular}">
+                            <option value="Muy Alto">Muy Alto</option>
+                            <option value="Alto">Alto</option>
+                            <option value="Medio">Medio</option>
+                            <option value="Bajo">Bajo</option>
+                            <option value="Muy Bajo">Muy Bajo</option>
+                            <option value="Nulo">Nulo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Valoracion Mental:</label>
+                        <select id="ValoracionMental" name="ValoracionMental" class="form-control"
+                            th:field="*{ValoracionMental}">
+                            <option value="Muy Alto">Muy Alto</option>
+                            <option value="Alto">Alto</option>
+                            <option value="Medio">Medio</option>
+                            <option value="Bajo">Bajo</option>
+                            <option value="Muy Bajo">Muy Bajo</option>
+                            <option value="Nulo">Nulo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Valoracion Socio Familiar:</label>
+                        <select id="ValoracionSocioFamiliar" name="ValoracionSocioFamiliar" class="form-control"
+                            th:field="*{ValoracionSocioFamiliar}">
+                            <option value="Acompañado">Acompañado</option>
+                            <option value="En abandono">En abandono</option>
+                            <option value="Visitado">Visitado</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Categoria Adulto Mayor:</label>
+                        <select id="CategoriaAdultoMayor" name="CategoriaAdultoMayor" class="form-control"
+                            th:field="*{CategoriaAdultoMayor}">
+                            <option value="Saludable">Saludable</option>
+                            <option value="En Riesgo">En Riesgo</option>
+                            <option value="Con discapacidad">Con discapacidad</option>
+                            <option value="Fragil">Fragil</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Tratamientos Frecuentes:</label>
+                        <textarea id="Tratamiento" name="Tratamiento" class="form-control"
+                            placeholder="Detalle Tratamiento Frecuentes" rows="5" cols="50"
+                            th:field="*{Tratamiento}"></textarea>
+                    </div>
+
+                </div>
+
+                <h2>Diagnostico Actual:</h2>
+                <div class="mb-3">
+                    <label>Detalles de Diagnostico:</label>
+                    <textarea id="Diagnostico" name="Diagnostico" class="form-control"
+                        placeholder="Detalle del Diagnostico" rows="5" cols="50" th:field="*{Diagnostico}"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <select id="paciente" name="paciente" class="form-select"> 
+                        <option th:each="cita : ${citas}" th:value="${cita.paciente.getPacId()}"
+                            th:text="${cita.paciente.pacUsuario.userNombre}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+
+        </div>
+
+
+        <div id="tablaHistoria"></div>
+        <div th:action="@{/doctor/buscarHistoria}" th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}"
+            id="tabla-citas-ver" style="display: none;">
+            <table class="table table-striped">
+                <tr>
+                    <th>DNI</th>
+                    <th>Nombre Paciente</th>
+                    <th>Apellido Paciente</th>
+                    <th>Correo</th>
+                    <th>Edad</th>
+                    <th>Género</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Carne de Extranjeria</th>
+                    <th>Fecha Atencion</th>
+                    <th>Medicamentos Recetados</th>
+                    <th>Grupo Sanguineo</th>
+                    <th>FactorRh</th>
+                    <th>Antecedentes Patologicos</th>
+                    <th>Antecedentes Quirurgicos</th>
+                    <th>Antecedentes Laborales</th>
+                    <th>Terapias Alternativas</th>
+                    <th>Estilo de Vida</th>
+                    <th>Antecedente Familiar</th>
+                    <th>Antecedentes Infantil</th>
+                    <th>Motivo de Consulta</th>
+                    <th>Forma Inicio</th>
+                    <th>Tiempo de Enfermedad</th>
+                    <th>Presion Arterial</th>
+                    <th>Respiraciones por minuto</th>
+                    <th>Pulso</th>
+                    <th>Temperatura</th>
+                    <th>Peso</th>
+                    <th>Talla</th>
+                    <th>Diagnostico Final</th>
+                    <th>Medicamentos Frecuentes</th>
+                    <th>Valoracion Funcional</th>
+                    <th>Valoracion Mental</th>
+                    <th>Valoracion SocioFamiliar</th>
+                    <th>Categoria de AdultoMayor</th>
+                    <th>Tratamientos</th>
+                    <th>Cuidados Preventivos</th>
+                    <th>Salud Sexual</th>
+                    <th>Salud Bucal</th>
+                    <th>Riesgo Cardiovascular</th>
+                </tr>
+                <tr th:each="cita: ${citas}">
+                    <td th:utext="${cita.paciente.pacUsuario.Dni}"></td>
+                    <td th:utext="${cita.paciente.pacUsuario.userNombre}"></td>
+                    <td th:utext="${cita.paciente.pacUsuario.userApellido}"></td>
+                    <td th:utext="${cita.paciente.pacUsuario.userCorreo}"></td>
+                    <td th:utext="${cita.paciente.pacUsuario.userEdad}"></td>
+                    <td th:utext="${cita.paciente.pacUsuario.userSexo}"></td>
+                    <td th:utext="${cita.paciente.pacUsuario.FechaNacimiento}"></td>
+                    <td th:utext="${cita.paciente.pacUsuario.CarneExtranjeria}"></td>     
+
+
+                    <!-- Otros datos de la cita -->
+                </tr>
+
+            </table>
+
+
+        </div>
+
+
+        <form th:action="@{/doctor/actualizarhistoria}" th:object="${historianueva}" id="form-cita-paciente"
+            th:if="${formpacienteper}" method="post">
+            <di class="mb-3">
+                <h3>Cabezera Historia Clinica</h3>
+                <label for="PertenenciaEtnica">Fecha de Atencion:</label>
+                <input type="datetime-local" id="FechaAtencion" name="FechaAtencion" class="form-control"
+                    placeholder="Fecha y hora de atención" th:field="*{FechaAtencion}" />
+            </di>
+            <br>
             <div class="mb-3">
-                <select id="pacienteHistoria" name="pacienteHistoria" class="form-select">
-                    <option th:each="cita : ${citas}" th:value="${cita.paciente.pacId}" th:text="${cita.paciente.pacUsuario.userNombre}"></option>
+                <label for="PertenenciaEtnica">DNI de la Madre:</label>
+                <input type="text" id="DniMadre" name="DniMadre" class="form-control"
+                    placeholder="DNI de la Madre del paciente" th:field="*{DniMadre}" />
+            </div>
+            <div class="mb-3">
+                <label for="PertenenciaEtnica">DNI del Padre:</label>
+                <input type="text" id="DniPadre" name="DniPadre" class="form-control"
+                    placeholder="DNI de la Padre del paciente" th:field="*{DniPadre}" />
+            </div>
+            <div class="mb-3">
+                <label for="PertenenciaEtnica">Lugar de Nacimiento del Paciente:</label>
+                <input type="text" id="LugarNacimiento" name="LugarNacimiento" class="form-control"
+                    placeholder="Lugar de nacimiento" th:field="*{LugarNacimiento}" />
+            </div>
+            <div class="mb-3">
+                <label for="PertenenciaEtnica">Pertenencia Etnica:</label>
+                <select id="PertenenciaEtnica" name="PertenenciaEtnica" class="form-control"
+                    th:field="*{PertenenciaEtnica}">
+                    <option value="Quechuas">Quechuas</option>
+                    <option value="Aimaras">Aimaras</option>
+                    <option value="Urus">Urus</option>
+                    <option value="Kakuay">Kakuay</option>
+                    <option value="Ashaninkas">Ashaninkas</option>
+                    <option value="Shipibo">Shipibo</option>
+                    <option value="Yanesha">Yanesha</option>
+                    <option value="Awajún">Awajún</option>
+                    <option value="Wampis">Wampis</option>
+                    <option value="Aguarunas">Aguarunas</option>
+                    <option value="Shawi">Shawi</option>
+                    <option value="Candoshi">Candoshi</option>
+                    <option value="Huitoto">Huitoto</option>
+                    <option value="Bora">Bora</option>
+                    <option value="Ocaina">Ocaina</option>
+                    <option value="Yagua">Yagua</option>
+                    <option value="Secoya">Secoya</option>
+                    <option value="Cofán">Cofán</option>
+                    <option value="Siona">Siona</option>
+                    <option value="Mestizos">Mestizos</option>
+                    <option value="No Aplica">No Aplica</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </form>
-    </div>
-    <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" id="formulario-cita" style="display: none;">
+            <div class="mb-3">
+                <label for="GrupoSanguineo">Grupo Sanguineo:</label>
+                <select id="GrupoSanguineo" name="GrupoSanguineo" class="form-control" th:field="*{GrupoSanguineo}">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="AB">AB</option>
+                    <option value="O">O</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>FactorRh:</label>
+                <input type="checkbox" id="factorRh" name="factorRh" class="form-check-input" placeholder="Factor Rh"
+                    th:field="*{factorRh}" />
+            </div>
+            <div class="mb-3">
+                <label for="GradoInstruccion">Grado de Instruccion:</label>
+                <select id="GradoInstruccion" name="GradoInstruccion" class="form-control"
+                    th:field="*{GradoInstruccion}">
+                    <option value="Inicial">Inicial</option>
+                    <option value="Primaria">Primaria</option>
+                    <option value="Secundaria">Secundaria</option>
+                    <option value="Superior No Universitaria">Superior No Universitaria</option>
+                    <option value="Superior Universitaria">Superior Universitaria</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="Genero">Género:</label>
+                <select id="Genero" name="Genero" class="form-control" th:field="*{Genero}">
+                    <option value="Hombre">Hombre</option>
+                    <option value="Mujer">Mujer</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="Genero">Edad del Paciente:</label>
+                <input type="text" id="Edad" name="Edad" class="form-control" placeholder="Edad del paciente"
+                    th:field="*{Edad}" />
+            </div>
 
-        <form th:action="@{/doctor/actualizarhistoria}" th:object="${historianueva}" method="post">
+
+            <h2>Antecedentes Personales</h2>
             <div class="mb-3">
-                <input type="text" id="histDiagnostico" name="histDiagnostico" class="form-control" placeholder="Historial de diagnóstico" />
+                <label>Antecedentes Patologicos</label>
+                <textarea id="Patologicos" name="Patologicos" class="form-control"
+                    placeholder="Detalle de Antecedentes Patologicos" rows="5" cols="50"
+                    th:field="*{Patologicos}"></textarea>
             </div>
             <div class="mb-3">
-                <input type="datetime-local" id="fechaHoraHistoriaAtencion" name="fechaHoraHistoriaAtencion" class="form-control" placeholder="Fecha y hora de la historia de atención" th:field="*{fechaHoraHistoriaAtencion}" />
+                <label>Antecedentes del Quirurgicos:</label>
+                <textarea id="Quirurgicos" name="Quirurgicos" class="form-control"
+                    placeholder="Detalle de Antecedentes Quirurgicos" rows="5" cols="50"
+                    th:field="*{Quirurgicos}"></textarea>
             </div>
             <div class="mb-3">
-                <input type="text" id="pertenenciaEtnicaHist" name="pertenenciaEtnicaHist" class="form-control" placeholder="Pertenencia étnica" th:field="*{pertenenciaEtnicaHist}" />
+                <label>Antecedentes Laborales:</label>
+                <textarea id="Laborales" name="Laborales" class="form-control"
+                    placeholder="Detalle de Antecedentes Laborales" rows="5" cols="50"
+                    th:field="*{Laborales}"></textarea>
             </div>
             <div class="mb-3">
-                <input type="datetime-local" id="fechaHoraHistoriaActual" name="fechaHoraHistoriaActual" class="form-control" placeholder="Fecha y hora de la historia actual" th:field="*{fechaHoraHistoriaActual}" />
+                <label>Antecedentes de Terapias Alternativas:</label>
+                <textarea id="TerapiasAlternativas" name="TerapiasAlternativas" class="form-control"
+                    placeholder="Detalle de Terapias Alternativas" rows="5" cols="50"
+                    th:field="*{TerapiasAlternativas}"></textarea>
             </div>
             <div class="mb-3">
-                <input type="text" id="lnacimientoHit" name="lnacimientoHit" class="form-control" placeholder="Lugar de nacimiento" th:field="*{lnacimientoHit}" />
+                <label for="EstiloVida">Estilo de Vida:</label>
+                <select id="EstiloVida" name="EstiloVida" class="form-control" th:field="*{EstiloVida}">
+                    <option value="Saludable">Saludable</option>
+                    <option value="Sedentario">Sedentario</option>
+                    <option value="Estresante">Estresante</option>
+                    <option value="Consumista">Consumista</option>
+                </select>
             </div>
             <div class="mb-3">
-                <input type="text" id="gradoDeInstruccion" name="gradoDeInstruccion" class="form-control" placeholder="Grado de instrucción" th:field="*{gradoDeInstruccion}" />
+                <label>Antecedentes Familiares:</label>
+                <textarea id="Familiar" name="Familiar" class="form-control"
+                    placeholder="Detalle de Antecedentes Familiares" rows="5" cols="50"
+                    th:field="*{Familiar}"></textarea>
             </div>
             <div class="mb-3">
-                <input type="text" id="grupoSanguineo" name="grupoSanguineo" class="form-control" placeholder="Grupo sanguíneo" th:field="*{grupoSanguineo}" />
+                <label>Antecedentes Infantiles:</label>
+                <textarea id="Infantil" name="Infantil" class="form-control"
+                    placeholder="Detalle de Antecedentes Infantiles" rows="5" cols="50"
+                    th:field="*{Infantil}"></textarea>
             </div>
             <div class="mb-3">
-                <label >FactorRh:</label>
-                <input type="checkbox" id="factorRh" name="factorRh" class="form-check-input" placeholder="Factor Rh" th:field="*{factorRh}" />
+                <label>¿Posee el Esquema Vacunacion Completa?</label>
+                <input type="checkbox" id="EsquemaVacunacion" name="EsquemaVacunacion" class="form-check-input"
+                    placeholder="check = Si" th:field="*{EsquemaVacunacion}" />
+            </div>
+
+
+            <h2>Anamnesis del Paciente</h2>
+            <div class="mb-3">
+                <label>Motivo de Consulta</label>
+                <textarea id="MotivoConsulta" name="MotivoConsulta" class="form-control"
+                    placeholder="Motivo de Consulta Medica del Paciente" rows="5" cols="50"
+                    th:field="*{MotivoConsulta}"></textarea>
             </div>
             <div class="mb-3">
-                <input type="text" id="dniFamiliar" name="dniFamiliar" class="form-control" placeholder="DNI del familiar" th:field="*{dniFamiliar}" />
+                <label>Forma de Inicio del Problema</label>
+                <textarea id="FormaInicio" name="FormaInicio" class="form-control"
+                    placeholder=" Detalle la Forma de Inicio del Problema" rows="5" cols="50"
+                    th:field="*{FormaInicio}"></textarea>
             </div>
-            <div class="mb-3">
-                <textarea id="histNotas" name="histNotas" class="form-control" placeholder="Notas" rows="5" cols="50" th:field="*{histNotas}"></textarea>
+
+            <h2>Triaje del Paciente: </h2>
+            <div class="row mt-2">
+                <div class="col-md-2 col-lg-1 col-xl-6 mx-auto mb-2">
+                    <div class="mb-3">
+                        <label>Presion Arterial Sistolica (mmHg):</label>
+                        <input type="number" id="PresionArteriaS" name="PresionArteriaS" class="form-control"
+                            placeholder="Presion Arterial Sistolica del Paciente" th:field="*{PresionArteriaS}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Presion Arterial Diastólica (mmHg):</label>
+                        <input type="number" id="PresionArteriaD" name="PresionArteriaD" class="form-control"
+                            placeholder="Presion Arterial Diastólica del Paciente" th:field="*{PresionArteriaD}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Respiraciones por minuto (RPM):</label>
+                        <input type="number" id="Respiracion" name="Respiracion" class="form-control"
+                            placeholder="Respiraciones por Minuto del Paciente" th:field="*{Respiracion}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Latidos por minuto (lpm):</label>
+                        <input type="number" id="Pulso" name="Pulso" class="form-control"
+                            placeholder="Pulso del Paciente" th:field="*{Pulso}" />
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-1 col-xl-6 mx-auto mb-2">
+                    <div class="mb-3">
+                        <label>Temperatura (ºC):</label>
+                        <input type="number" id="Temperatura" name="Temperatura" class="form-control"
+                            placeholder="Temperatura del Paciente" th:field="*{Temperatura}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Peso (Kg):</label>
+                        <input type="number" id="Peso" name="Peso" class="form-control" placeholder="Peso del Paciente"
+                            th:field="*{Peso}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Talla (Cm):</label>
+                        <input type="number" id="Talla" name="Talla" class="form-control"
+                            placeholder="Talla del Paciente" th:field="*{Talla}" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Tiempo de Enfermedad:</label>
+                        <div class="input-group">
+                            <input type="text" id="TiempoEnfermedad" name="TiempoEnfermedad" class="form-control"
+                                placeholder="Duración" th:field="*{TiempoEnfermedad}" />
+                            <select class="form-select" id="unidadTiempo" name="unidadTiempo">
+                                <option value="Días">Días</option>
+                                <option value="Horas">Horas</option>
+                                <option value="Semanas">Semanas</option>
+                                <option value="Meses">Meses</option>
+                                <option value="Años">Años</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
+
+            <div class="container-sm adolescencia-section">
+                <h2>Formato Historia Clinica del Adolescente:</h2>
+                <div class="mb-3">
+                    <label>Salud Sexual:</label>
+                    <input type="text" id="SaludSexual" name="SaludSexual" class="form-control"
+                        placeholder="SaludSexual" th:field="*{SaludSexual}" />
+                </div>
+                <div class="mb-3">
+                    <label>Salud Bucal:</label>
+                    <input type="text" id="SaludSexual" name="SaludSexual" class="form-control"
+                        placeholder="SaludSexual" th:field="*{SaludSexual}" />
+                </div>
+                <div class="mb-3">
+                    <label>Riesgo Cardiovascular:</label>
+                    <select id="RiesgoCardiovascular" name="RiesgoCardiovascular" class="form-control"
+                        th:field="*{RiesgoCardiovascular}">
+                        <option value="Alto">Alto</option>
+                        <option value="Medio">Medio</option>
+                        <option value="Bajo">Bajo</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div class="container-sm joven-section">
+                <h2>Formato Historia Clinica del Joven:</h2>
+                <div class="mb-3">
+                    <label>Medicamentos Frecuentes:</label>
+                    <textarea id="CuidadosPreventivos" name="CuidadosPreventivos" class="form-control"
+                        placeholder="Detalle Cuidados Preventivos" rows="5" cols="50"
+                        th:field="*{CuidadosPreventivos}"></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="container-sm adulto-section">
+                <h2>Formato Historia Clinica del Adulto:</h2>
+                <div class="mb-3">
+                    <label>Medicamentos Frecuentes:</label>
+                    <textarea id="CuidadosPreventivos" name="CuidadosPreventivos" class="form-control"
+                        placeholder="Detalle Cuidados Preventivos" rows="5" cols="50" th:field="*{CuidadosPreventivos}">
+                    </textarea>
+                </div>
+
+            </div>
+
+
+            <div class="container-sm adultoMayor-section">
+                <h2>Formato Historia Clinica del Adulto Mayor:</h2>
+                <div class="mb-3">
+                    <label>Medicamentos Frecuentes:</label>
+                    <textarea id="MedicamentosFrecuentes" name="MedicamentosFrecuentes" class="form-control"
+                        placeholder="Detalle MedicamentosFrecuentes" rows="5" cols="50"
+                        th:field="*{MedicamentosFrecuentes}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Valoracion Funcional:</label>
+                    <select id="RiesgoCardiovascular" name="RiesgoCardiovascular" class="form-control"
+                        th:field="*{RiesgoCardiovascular}">
+                        <option value="Muy Alto">Muy Alto</option>
+                        <option value="Alto">Alto</option>
+                        <option value="Medio">Medio</option>
+                        <option value="Bajo">Bajo</option>
+                        <option value="Muy Bajo">Muy Bajo</option>
+                        <option value="Nulo">Nulo</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Valoracion Mental:</label>
+                    <select id="ValoracionMental" name="ValoracionMental" class="form-control"
+                        th:field="*{ValoracionMental}">
+                        <option value="Muy Alto">Muy Alto</option>
+                        <option value="Alto">Alto</option>
+                        <option value="Medio">Medio</option>
+                        <option value="Bajo">Bajo</option>
+                        <option value="Muy Bajo">Muy Bajo</option>
+                        <option value="Nulo">Nulo</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Valoracion Socio Familiar:</label>
+                    <select id="ValoracionSocioFamiliar" name="ValoracionSocioFamiliar" class="form-control"
+                        th:field="*{ValoracionSocioFamiliar}">
+                        <option value="Acompañado">Acompañado</option>
+                        <option value="En abandono">En abandono</option>
+                        <option value="Visitado">Visitado</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Categoria Adulto Mayor:</label>
+                    <select id="CategoriaAdultoMayor" name="CategoriaAdultoMayor" class="form-control"
+                        th:field="*{CategoriaAdultoMayor}">
+                        <option value="Saludable">Saludable</option>
+                        <option value="En Riesgo">En Riesgo</option>
+                        <option value="Con discapacidad">Con discapacidad</option>
+                        <option value="Fragil">Fragil</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Tratamientos Frecuentes:</label>
+                    <textarea id="Tratamiento" name="Tratamiento" class="form-control"
+                        placeholder="Detalle Tratamiento Frecuentes" rows="5" cols="50"
+                        th:field="*{Tratamiento}"></textarea>
+                </div>
+
+            </div>
+
+            <h2>Diagnostico Actual:</h2>
             <div class="mb-3">
+                <label>Detalles de Diagnostico:</label>
+                <textarea id="Diagnostico" name="Diagnostico" class="form-control" placeholder="Detalle del Diagnostico"
+                    rows="5" cols="50" th:field="*{Diagnostico}"></textarea>
+            </div>
+
+
+            <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" class="mb-3">
                 <select id="paciente" name="paciente" class="form-select">
-                    <option th:each="cita : ${citas}" th:value="${cita.paciente.getPacId()}" th:text="${cita.paciente.pacUsuario.userNombre}"></option>
+                    <option th:each="cita : ${citas}" th:value="${cita.paciente.getPacId()}"
+                        th:text="${cita.paciente.pacUsuario.userNombre}"></option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" type="submit"
+                class="btn btn-primary">Actualizar</button>
         </form>
-
     </div>
-
-    <form th:action="@{/doctor/actualizarhistoria}" th:object="${historianueva}" id="form-cita-paciente" th:if="${formpacienteper}"method="post">
-        <div class="mb-3">
-            <input type="text" id="histDiagnostico" name="histDiagnostico" class="form-control" placeholder="Historial de diagnóstico" th:field="*{histDiagnostico}"/>
-        </div>
-        <div class="mb-3">
-            <input type="datetime-local" id="fechaHoraHistoriaAtencion" name="fechaHoraHistoriaAtencion" class="form-control" placeholder="Fecha y hora de la historia de atención" th:value="*{fechaHoraHistoriaAtencion}" />
-        </div>
-        <div class="mb-3">
-            <input type="text" id="pertenenciaEtnicaHist" name="pertenenciaEtnicaHist" class="form-control" placeholder="Pertenencia étnica" th:field="*{pertenenciaEtnicaHist}" />
-        </div>
-        <div class="mb-3">
-            <input type="datetime-local" id="fechaHoraHistoriaActual" name="fechaHoraHistoriaActual" class="form-control" placeholder="Fecha y hora de la historia actual" th:value="*{fechaHoraHistoriaActual}" />
-        </div>
-        <div class="mb-3">
-            <input type="text" id="lnacimientoHit" name="lnacimientoHit" class="form-control" placeholder="Lugar de nacimiento" th:field="*{lnacimientoHit}" />
-        </div>
-        <div class="mb-3">
-            <input type="text" id="gradoDeInstruccion" name="gradoDeInstruccion" class="form-control" placeholder="Grado de instrucción" th:field="*{gradoDeInstruccion}" />
-        </div>
-        <div class="mb-3">
-            <input type="text" id="grupoSanguineo" name="grupoSanguineo" class="form-control" placeholder="Grupo sanguíneo" th:field="*{grupoSanguineo}" />
-        </div>
-        <div class="mb-3">
-            <label >FactorRh:</label>
-            <input type="checkbox" id="factorRh" name="factorRh" class="form-check-input" placeholder="Factor Rh" th:field="*{factorRh}" />
-        </div>
-        <div class="mb-3">
-            <input type="text" id="dniFamiliar" name="dniFamiliar" class="form-control" placeholder="DNI del familiar" th:field="*{dniFamiliar}" />
-        </div>
-        <div class="mb-3">
-            <textarea id="histNotas" name="histNotas" class="form-control" placeholder="Notas" rows="5" cols="50" th:field="*{histNotas}"></textarea>
-        </div>
-        <div th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" class="mb-3">
-            <select id="paciente" name="paciente" class="form-select">
-                <option th:each="cita : ${citas}" th:value="${cita.paciente.getPacId()}" th:text="${cita.paciente.pacUsuario.userNombre}"></option>
-            </select>
-        </div>
-        <button th:if="${#authorization.expression('hasRole(''ROLE_DOCTOR'')')}" type="submit" class="btn btn-primary">Actualizar</button>
-    </form>
-
-
-
-
-
-
-</div>
-<p th:text="${mensaje}"></p>
-<footer  th:replace="~{plantilla/plantilla :: plantilla}" ></footer>
-
-
+    <p th:text="${mensaje}"></p>
+    <footer th:replace="~{plantilla/plantilla :: plantilla}"></footer>
 </body>
+
 </html>

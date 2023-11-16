@@ -51,7 +51,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Optional<Doctor> getDoctorbyId(Long id) {
+    public Optional<Doctor> getDoctorById(Long id) {
          return doctorrepo.findById(id);
     }
 

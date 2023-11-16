@@ -66,19 +66,10 @@
 
 
         <form class="container-sm" th:if="${tipo == 'paciente'}" th:action="@{/personal/savepaciente}" method="post" th:object="${paciente}">
+            
             <div class="mb-3">
-                <label for="Nacimiento" class="form-label">Nacimiento:</label>
-                <input type="date" id="Nacimiento" name="Nacimiento" class="form-control" th:field="*{pacFechaNacimiento}">
-            </div>
-
-            <div class="mb-3">
-                <label for="userApellido" class="form-label">Direccion:</label>
-                <input type="text" id="userApellido" name="Direccion" class="form-control" th:field="*{pacDireccion}">
-            </div>
-
-            <div class="mb-3">
-                <label for="telefono" class="form-label">Telefono:</label>
-                <input type="text" id="telefono" name="telefono" class="form-control" th:field="*{pacNumeroTelefono}" pattern="9\d{8}" title="Ingresa un número de 9 dígitos que comience con 9" required>
+                <label for="userEdad" class="form-label">Edad:</label>
+                <input type="number" id="userEdad" name="userEdad" class="form-control" th:field="*{pacHistorias.histPaciente}">
             </div>
 
             <input type="text" style="display: none;" name="iduser" th:value="${idUser}">

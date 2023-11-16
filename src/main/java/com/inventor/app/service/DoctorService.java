@@ -11,7 +11,7 @@ public interface DoctorService {
 
     List<Doctor> getAllDoctors();
     List<Doctor> buscarPorEspecialidad(String name);
-    Optional<Doctor> getDoctorbyId(Long id);
+    Optional<Doctor> getDoctorById(Long id);
 
 
     Doctor updateDoctor(Doctor pd,Long id);
@@ -19,4 +19,5 @@ public interface DoctorService {
     void deleteDetail(Long id);
 
     Doctor buscarPacienteByUsuario(String name);
+
 }
